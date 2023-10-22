@@ -12,6 +12,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Classifieds.Auth", "Classif
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModerationService", "ModerationService\ModerationService.csproj", "{F413F01F-B359-4590-AF8E-652C7329BE17}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotificationService", "NotificationService\NotificationService.csproj", "{1AC0EDA5-2A47-469B-B119-B52819FF2667}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -42,5 +44,9 @@ Global
 		{F413F01F-B359-4590-AF8E-652C7329BE17}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F413F01F-B359-4590-AF8E-652C7329BE17}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F413F01F-B359-4590-AF8E-652C7329BE17}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1AC0EDA5-2A47-469B-B119-B52819FF2667}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1AC0EDA5-2A47-469B-B119-B52819FF2667}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1AC0EDA5-2A47-469B-B119-B52819FF2667}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1AC0EDA5-2A47-469B-B119-B52819FF2667}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
