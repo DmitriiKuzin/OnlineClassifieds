@@ -1,0 +1,19 @@
+﻿FROM mcr.microsoft.com/dotnet/sdk:{ds_image_version}-alpine as build
+ARG APP_CONFIG=Release
+ARG BASE_PATH=
+
+WORKDIR /src
+{ds_reference_project COPY $BASE_PATH/{ds_reference_path}/{ds_reference_file} {ds_reference_path}/}
+RUN dotnet restore "{ds_project_path}/{ds_project_name}.csproj" /p:Configuration=$APP_CONFIG
+
+{ds_reference COPY $BASE_PATH/{ds_reference_path}/{ds_reference_file} {ds_reference_path}/}
+RUN dotnet publish "{ds_project_path}/{ds_project_name}.csproj" -c $APP_CONFIG -o /out --no-restore
+
+FROM mcr.microsoft.com/dotnet/{ds_image_name}:{ds_image_version}-alpine
+RUN apk upgrade musl
+RUN adduser --disabled-password --home /app --gecos '' appuser && chown -R appuser /app
+USER appuser
+WORKDIR /app
+COPY --from=build /out ./
+{ds_runtime_extra}
+ENTRYPOINT ["dotnet", "{ds_project_name}.dll"]
