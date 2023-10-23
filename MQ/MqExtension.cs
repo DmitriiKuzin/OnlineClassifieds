@@ -24,6 +24,10 @@ public static class MqExtension
                     h.Username(("user"));
                     h.Password(("rabb35135143s5fasfawf"));
                 });
+                cfg.UseMessageRetry(r =>
+                {
+                    r.Intervals(new[] { 1, 2, 4, 8, 16, 32 }.Select(t => TimeSpan.FromSeconds(t)).ToArray());
+                });
                 cfg.ConfigureEndpoints(context, new MqEndpointNameFormatter());
             });
         });
