@@ -3,6 +3,7 @@ using DAL;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using ModerationService;
+using ModerationService.Consumers;
 using MQ;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,9 +12,12 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<ClassifiedsDbContext>();
-builder.Services.AddRabbitMq();
+builder.Services.AddRabbitMq(x =>
+{
+    x.AddConsumer<ListingPublishRequestedConsumer>();
+});
 builder.Services.AddClassifiedsAuth();
-
+builder.Services.AddSwaggerWithAuth();
 var app = builder.Build();
 
 app.UseSwagger();

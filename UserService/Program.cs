@@ -19,10 +19,7 @@ builder.Services.AddScoped<UserService.Services.UserService>();
 builder.Services.AddSingleton<IPasswordHasher<UserProfile>, PasswordHasher<UserProfile>>();
 builder.Services.AddScoped<AuthService>();
 builder.Services.AddHttpLogging(options => options.LoggingFields = HttpLoggingFields.All);
-builder.Services.AddDbContext<ClassifiedsDbContext>(optionsBuilder =>
-{
-    optionsBuilder.UseNpgsql(builder.Configuration["DB_CONNECTION_STRING"]);
-});
+builder.Services.AddDbContext<ClassifiedsDbContext>();
 builder.Services.AddClassifiedsAuth();
 
 var app = builder.Build();

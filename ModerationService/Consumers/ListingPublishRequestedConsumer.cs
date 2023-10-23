@@ -3,7 +3,7 @@ using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using MQ;
 
-namespace ModerationService;
+namespace ModerationService.Consumers;
 
 public class ListingPublishRequestedConsumer: IConsumer<ListingPublishRequested>
 {

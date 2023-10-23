@@ -21,7 +21,7 @@ public class UserService
     public async Task<long> CreateUser(CreateUserDto user)
     {
         var newUser = user.ToDbModel();
-        newUser.PasswordHash = _passwordHasher.HashPassword(null, user.Password);
+        newUser.PasswordHash = _passwordHasher.HashPassword(newUser, user.Password);
         _context.UserProfiles.Add(newUser);
         await _context.SaveChangesAsync();
         return newUser.Id;

@@ -18,11 +18,11 @@ public class Listing
         Status == ListingStatus.ModerationFailed ? "Модерация не пройдена" :
         Status == ListingStatus.ModerationSucceed ? "Модерация пройдена" : "Опубликовано";
 
-    public string? Price { get; set; }
+    public double? Price { get; set; }
     public int CategoryId { get; set; }
-    public required Category Category { get; set; }
+    public Category Category { get; set; } = null!;
     public long UserProfileId { get; set; }
-    public required UserProfile UserProfile { get; set; }
+    public UserProfile UserProfile { get; set; } = null!;
 }
 
 public class Category

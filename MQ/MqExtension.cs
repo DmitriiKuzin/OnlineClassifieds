@@ -16,11 +16,15 @@ public static class MqExtension
             // elided...
             x.UsingRabbitMq((context,cfg) =>
             {
-                cfg.Host(Environment.GetEnvironmentVariable("RABBITMQ_HOST"), "/", h => {
-                    h.Username(Environment.GetEnvironmentVariable("RABBITMQ_USER"));
-                    h.Password(Environment.GetEnvironmentVariable("RABBITMQ_PASSWORD"));
+                // cfg.Host(Environment.GetEnvironmentVariable("RABBITMQ_HOST"), "/", h => {
+                //     h.Username(Environment.GetEnvironmentVariable("RABBITMQ_USER"));
+                //     h.Password(Environment.GetEnvironmentVariable("RABBITMQ_PASSWORD"));
+                // });
+                cfg.Host(("localhost"), "/", h => {
+                    h.Username(("user"));
+                    h.Password(("rabb35135143s5fasfawf"));
                 });
-                cfg.ConfigureEndpoints(context);
+                cfg.ConfigureEndpoints(context, new MqEndpointNameFormatter());
             });
         });
         return sc;
@@ -29,10 +33,13 @@ public static class MqExtension
     public static async Task WaitForRabbitReady()
     {
         var client = new HttpClient();
+        // client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic",
+        //     Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("RABBITMQ_USER") + ":" +
+        //                                                               Environment.GetEnvironmentVariable("RABBITMQ_PASSWORD"))));
+        // var url = $"http://{Environment.GetEnvironmentVariable("RABBITMQ_HOST")}:15672/api/health/checks/virtual-hosts";
         client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic",
-            Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("RABBITMQ_USER") + ":" +
-                                                                      Environment.GetEnvironmentVariable("RABBITMQ_PASSWORD"))));
-        var url = $"http://{Environment.GetEnvironmentVariable("RABBITMQ_HOST")}:15672/api/health/checks/virtual-hosts";
+            Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes("user:rabb35135143s5fasfawf")));
+        var url = $"http://localhost:15672/api/health/checks/virtual-hosts";
 
         while (true)
         {

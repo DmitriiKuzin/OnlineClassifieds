@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 
 namespace Classifieds.Auth;
 
@@ -39,5 +40,40 @@ public static class AuthExtension
     public static Roles GetUserRole(this HttpContext ctx)
     {
         return (Roles) int.Parse(ctx.User.Claims.FirstOrDefault(x => x.Type == "roleId")?.Value);
+    }
+
+    public static IServiceCollection AddSwaggerWithAuth(this IServiceCollection services)
+    {
+        var securityScheme = new OpenApiSecurityScheme()
+        {
+            Name = "Authorization",
+            Type = SecuritySchemeType.ApiKey,
+            Scheme = "Bearer",
+            BearerFormat = "JWT",
+            In = ParameterLocation.Header,
+            Description = "JSON Web Token based security",
+        };
+
+        var securityReq = new OpenApiSecurityRequirement()
+        {
+            {
+                new OpenApiSecurityScheme
+                {
+                    Reference = new OpenApiReference
+                    {
+                        Type = ReferenceType.SecurityScheme,
+                        Id = "Bearer"
+                    }
+                },
+                new string[] {}
+            }
+        };
+
+        services.AddSwaggerGen(o =>
+        {
+            o.AddSecurityDefinition("Bearer", securityScheme);
+            o.AddSecurityRequirement(securityReq);
+        });
+        return services;
     }
 }

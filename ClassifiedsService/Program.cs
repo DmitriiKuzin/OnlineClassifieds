@@ -1,36 +1,46 @@
 using Classifieds.Auth;
 using ClassifiedsService;
+using ClassifiedsService.Consumers;
 using DAL;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using MQ;
 
 var builder = WebApplication.CreateBuilder(args);
 
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+
+
 builder.Services.AddDbContext<ClassifiedsDbContext>();
 builder.Services.AddClassifiedsAuth();
-builder.Services.AddRabbitMq();
+builder.Services.AddRabbitMq(x =>
+{
+    x.AddConsumer<ModerationSucceedConsumer>();
+    x.AddConsumer<ModerationFailedConsumer>();
+});
+builder.Services.AddSwaggerWithAuth();
 
 var app = builder.Build();
 
 app.UseSwagger();
 app.UseSwaggerUI();
 
-
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapPost("/createListing",
     async (HttpContext ctx, ListingDto listingDto, IBus bus, ClassifiedsDbContext dbContext) =>
     {
+        if (ctx.GetUserId() == 0) return Results.Forbid();
         var model = listingDto.ToDbModel();
         model.UserProfileId = ctx.GetUserId();
         dbContext.Listings.Add(model);
         await dbContext.SaveChangesAsync();
         await bus.Publish(new ListingPublishRequested(model.Id));
+        return Results.Ok();
     });
 
 app.MapPost("/publishListing", async (HttpContext ctx, long listingId, IBus bus, ClassifiedsDbContext dbContext) =>
@@ -43,7 +53,7 @@ app.MapPost("/publishListing", async (HttpContext ctx, long listingId, IBus bus,
     return StatusCodes.Status201Created;
 });
 
-app.MapPost("/getMyListings", async (HttpContext ctx, ClassifiedsDbContext dbContext) =>
+app.MapGet("/getMyListings", async (HttpContext ctx, ClassifiedsDbContext dbContext) =>
 {
     var listings = await dbContext
         .Listings
