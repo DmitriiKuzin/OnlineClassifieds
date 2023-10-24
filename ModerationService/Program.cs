@@ -46,7 +46,7 @@ app.MapPatch("/acceptListingModeration", async (HttpContext ctx, long listingId,
         .FirstAsync(x => x.Id == listingId);
     listing.Status = ListingStatus.ModerationSucceed;
     await dbContext.SaveChangesAsync();
-    await bus.Publish(new ModerationSucceed(listingId));
+    await bus.Publish(new ModerationSucceed(listingId, listing.UserProfileId));
     return Results.Ok();
 });
 
@@ -58,7 +58,7 @@ app.MapPatch("/declineListingModeration", async (HttpContext ctx, long listingId
         .FirstAsync(x => x.Id == listingId);
     listing.Status = ListingStatus.ModerationFailed;
     await dbContext.SaveChangesAsync();
-    await bus.Publish(new ModerationFailed(listingId));
+    await bus.Publish(new ModerationFailed(listingId, listing.UserProfileId));
     return Results.Ok();
 });
 

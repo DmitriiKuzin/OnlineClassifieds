@@ -124,4 +124,5 @@ public class ClassifiedsDbContext: DbContext
     public DbSet<UserProfile> UserProfiles { get; set; } = null!;
     public DbSet<Listing> Listings { get; set; } = null!;
     public DbSet<Category> Categories { get; set; } = null!;
+    public DbSet<Notification> Notifications { get; set; } = null!;
 }

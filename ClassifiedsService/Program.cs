@@ -39,7 +39,7 @@ app.MapPost("/createListing",
         model.UserProfileId = ctx.GetUserId();
         dbContext.Listings.Add(model);
         await dbContext.SaveChangesAsync();
-        await bus.Publish(new ListingPublishRequested(model.Id));
+        await bus.Publish(new ListingPublishRequested(model.Id, model.UserProfileId));
         return Results.Ok();
     });
 
@@ -49,7 +49,7 @@ app.MapPost("/publishListing", async (HttpContext ctx, long listingId, IBus bus,
         .FirstOrDefaultAsync(x => x.UserProfileId == ctx.GetUserId() && x.Id == listingId);
     if (listing == null) return StatusCodes.Status403Forbidden;
     if (listing.Status != ListingStatus.Created) return StatusCodes.Status400BadRequest;
-    await bus.Publish(new ListingPublishRequested(listingId));
+    await bus.Publish(new ListingPublishRequested(listingId, listing.UserProfileId));
     return StatusCodes.Status201Created;
 });
 

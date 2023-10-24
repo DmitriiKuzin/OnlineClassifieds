@@ -21,6 +21,6 @@ public class ModerationSucceedConsumer: IConsumer<ModerationSucceed>
         var listing = await _dbContext.Listings.FirstAsync(x => x.Id == context.Message.ListingId);
         listing.Status = ListingStatus.Published;
         await _dbContext.SaveChangesAsync();
-        await _bus.Publish(new ListingPublished(context.Message.ListingId));
+        await _bus.Publish(new ListingPublished(context.Message.ListingId, context.Message.UserProfileId));
     }
 }
