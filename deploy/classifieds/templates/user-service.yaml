@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}-user-service-{{ .Release.Revision }}
+  labels:
+    name: {{ .Release.Name }}-user-service-{{ .Release.Revision }}
+    release: {{ .Release.Name }}
+    {{- include "classifieds.labels" . | nindent 4 }}
+spec:
+  selector:
+    app: {{ .Release.Name }}-user-service-{{ .Release.Revision }}
+  ports:
+    - name: web
+      protocol: TCP
+      port: 80
+      targetPort: 5000
+  type: ClusterIP
+  

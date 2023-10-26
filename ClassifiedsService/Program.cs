@@ -99,4 +99,6 @@ app.MapPost("/search", async (Filter filter, ClassifiedsDbContext dbContext) =>
 });
 
 await MqExtension.WaitForRabbitReady();
+var db = app.Services.CreateScope().ServiceProvider.GetRequiredService<ClassifiedsDbContext>();
+db.Database.Migrate();
 app.Run();
