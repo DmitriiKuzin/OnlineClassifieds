@@ -9,14 +9,14 @@ public class ClassifiedsDbContext: DbContext
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         var a = new NpgsqlConnectionStringBuilder();
-        // a.Host = Environment.GetEnvironmentVariable("POSTGRES_HOST");
-        // a.Database = "classifieds";
-        // a.Username = "postgres";
-        // a.Password = Environment.GetEnvironmentVariable("POSTGRES_PASSWORD");
-        a.Host = "localhost";
+        a.Host = Environment.GetEnvironmentVariable("POSTGRES_HOST");
         a.Database = "classifieds";
         a.Username = "postgres";
-        a.Password = "35135143s5fasfawf";
+        a.Password = Environment.GetEnvironmentVariable("POSTGRES_PASSWORD");
+        //a.Host = "localhost";
+        //a.Database = "classifieds";
+        //a.Username = "postgres";
+        //a.Password = "35135143s5fasfawf";
         optionsBuilder.UseNpgsql(a.ToString());
         base.OnConfiguring(optionsBuilder);
     }

@@ -16,14 +16,14 @@ public static class MqExtension
             // elided...
             x.UsingRabbitMq((context,cfg) =>
             {
-                // cfg.Host(Environment.GetEnvironmentVariable("RABBITMQ_HOST"), "/", h => {
-                //     h.Username(Environment.GetEnvironmentVariable("RABBITMQ_USER"));
-                //     h.Password(Environment.GetEnvironmentVariable("RABBITMQ_PASSWORD"));
-                // });
-                cfg.Host(("localhost"), "/", h => {
-                    h.Username(("user"));
-                    h.Password(("rabb35135143s5fasfawf"));
+                cfg.Host(Environment.GetEnvironmentVariable("RABBITMQ_HOST"), "/", h => {
+                    h.Username(Environment.GetEnvironmentVariable("RABBITMQ_USER"));
+                    h.Password(Environment.GetEnvironmentVariable("RABBITMQ_PASSWORD"));
                 });
+                // cfg.Host(("localhost"), "/", h => {
+                //     h.Username(("user"));
+                //     h.Password(("rabb35135143s5fasfawf"));
+                // });
                 cfg.UseMessageRetry(r =>
                 {
                     r.Intervals(new[] { 1, 2, 4, 8, 16, 32 }.Select(t => TimeSpan.FromSeconds(t)).ToArray());
