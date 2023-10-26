@@ -26,7 +26,7 @@ builder.Services.AddSwaggerWithAuth();
 var app = builder.Build();
 
 app.UseSwagger();
-app.UseSwaggerUI();
+app.UseSwaggerRequestInterceptor();
 
 app.UseAuthentication();
 app.UseAuthorization();
@@ -39,7 +39,6 @@ app.MapPost("/createListing",
         model.UserProfileId = ctx.GetUserId();
         dbContext.Listings.Add(model);
         await dbContext.SaveChangesAsync();
-        await bus.Publish(new ListingPublishRequested(model.Id, model.UserProfileId));
         return Results.Ok();
     });
 

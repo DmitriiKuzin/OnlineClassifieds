@@ -22,7 +22,7 @@ builder.Services.AddSwaggerWithAuth();
 var app = builder.Build();
 
 app.UseSwagger();
-app.UseSwaggerUI();
+app.UseSwaggerRequestInterceptor();
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapGet("getMyNotifications", async (HttpContext ctx, ClassifiedsDbContext dbContext) =>

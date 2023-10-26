@@ -5,14 +5,14 @@ metadata:
   labels:
     {{- include "classifieds.labels" . | nindent 4 }}
   annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
 spec:
   ingressClassName: nginx
   rules:
     - host: {{ .Values.host }}
       http:
         paths:
-          - path: /
+          - path: /moderation(/|$)(.*)
             pathType: Prefix
             backend:
               service:

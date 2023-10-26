@@ -21,7 +21,7 @@ builder.Services.AddSwaggerWithAuth();
 var app = builder.Build();
 
 app.UseSwagger();
-app.UseSwaggerUI();
+app.UseSwaggerRequestInterceptor();
 
 
 app.UseAuthorization();

@@ -28,7 +28,7 @@ app.UseHttpLogging();
 app.UseAuthentication();
 
 app.UseSwagger();
-app.UseSwaggerUI();
+app.UseSwaggerRequestInterceptor();
 app.UseHttpMetrics();
 app.MapMetrics();
 

@@ -44,7 +44,7 @@ spec:
                   key: "rabbitMq_password"
                   name: "connections-secret"
           name: {{ .Release.Name }}-user-service-{{ .Release.Revision }}
-          image: kuzindiman/sp_order_service:latest
+          image: kuzindiman/cl-user-service:latest
           imagePullPolicy: Always
       restartPolicy: Always
       
