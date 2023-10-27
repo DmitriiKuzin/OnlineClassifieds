@@ -17,7 +17,7 @@ public class ModerationFailedConsumer: IConsumer<ModerationFailed>
     public async Task Consume(ConsumeContext<ModerationFailed> context)
     {
         var listing = await _dbContext.Listings.FirstAsync(x => x.Id == context.Message.ListingId);
-        listing.Status = ListingStatus.Published;
+        listing.Status = ListingStatus.ModerationFailed;
         await _dbContext.SaveChangesAsync();
     }
 }
